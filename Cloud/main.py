@@ -2,12 +2,15 @@ import pyodbc
 
 # Functions
 def addReminder(n, d):
-    reminder = 'INSERT INTO Reminders(isRead, name, details) VALUES(0,\'' + n + '\',\'' + d + '\')'
-    print(reminder)
-    cursor.execute(reminder)
-#def getReminder():
+    cursor.execute('INSERT INTO Reminders(isRead, name, details) VALUES(0,\'' + n + '\',\'' + d + '\')')
+def getReminders():
+    print('getting')
+    cursor.execute('SELECT name, details FROM Reminders WHERE isRead = 0')
+    return cursor.fetchall()
 
-#def markRead(n):
+def markRead(n):
+    print('marking')
+    cursor.execute('UPDATE Reminders SET isRead = 1 WHERE name = \'' + n + '\'')
 
 print('begin')
 connection = pyodbc.connect('Driver={SQL Server};'
@@ -16,6 +19,12 @@ connection = pyodbc.connect('Driver={SQL Server};'
                             'Trusted_Connection=True;')
 
 cursor = connection.cursor()
-addReminder('Do the Dishes', 'i mean just figure it out')
+allReminders = getReminders()
+for row in allReminders:
+    print(row)
+markRead('Do the Dishes')
+allReminders = getReminders()
+for row in allReminders:
+    print(row)
 connection.commit()
 print('we made it')
