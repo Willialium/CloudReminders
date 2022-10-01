@@ -1,11 +1,11 @@
 import pyodbc
 
 # Functions
-def addReminder(name, details):
+def addReminder(n, d):
+    cursor.execute('INSERT INTO Reminders(isRead, name, details) VALUES(0, n, d')
+#def getReminder():
 
-def getReminder():
-
-def markRead(name):
+#def markRead(n):
 
 connection = pyodbc.connect('Driver={SQL Server};'
                             'Server=WINDELL-T2U0QEF;'
@@ -13,8 +13,6 @@ connection = pyodbc.connect('Driver={SQL Server};'
                             'Trusted_Connection=True;')
 
 cursor = connection.cursor()
-insertFormula = 'INSERT INTO Reminders(name, details) VALUES(%s, %s)'
-reminder1 = ('Do the Dishes', 'i mean just figure it out')
-cursor.execute(insertFormula, reminder1)
+addReminder('Do the Dishes', 'i mean just figure it out')
 connection.commit()
 print('we made it')
