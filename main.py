@@ -14,3 +14,8 @@ if __name__ == '__main__':
     print_hi('PyCharm')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+###### THIS IS FOR REAL ######
+import pyodbc
+
+connection = pyodbc.connect('Server=localhost;Database=mydb;Trusted_Connection=True;')
