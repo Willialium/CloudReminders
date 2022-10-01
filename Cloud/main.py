@@ -1,6 +1,11 @@
 import pyodbc
 
 # Functions
+def addReminder(name, details):
+
+def getReminder():
+
+def markRead(name):
 
 connection = pyodbc.connect('Driver={SQL Server};'
                             'Server=WINDELL-T2U0QEF;'
