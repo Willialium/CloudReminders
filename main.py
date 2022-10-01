@@ -18,4 +18,4 @@ if __name__ == '__main__':
 ###### THIS IS FOR REAL ######
 import pyodbc
 
-connection = pyodbc.connect('Server=localhost;Database=mydb;Trusted_Connection=True;')
+connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=mydb;Trusted_Connection=True;')
