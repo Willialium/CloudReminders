@@ -8,7 +8,7 @@ def getNames():
     cursor.execute('SELECT DISTINCT CONVERT(VARCHAR, firstName) FROM names')
     return cursor.fetchall()
 def getReminders(name):
-    cursor.execute('SELECT firstName, description FROM reminders A INNER JOIN names B ON A.id=B.reminderID WHERE CONVERT(VARCHAR, B.firstName)= \'' + name + '\'')
+    cursor.execute('SELECT name, description FROM reminders A INNER JOIN names B ON A.id=B.reminderID WHERE CONVERT(VARCHAR, B.firstName)= \'' + name + '\'')
     return cursor.fetchall()
 def markRead(n):
     cursor.execute('UPDATE Reminders SET isRead = 0 WHERE CONVERT(VARCHAR, name) = \'' + n + '\'')

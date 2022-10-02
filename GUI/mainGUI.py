@@ -15,6 +15,8 @@ frame = tk.Frame(root, borderwidth=0, highlightthickness=0)
 canvas = tk.Canvas(frame, bg='#800000', borderwidth=0, highlightthickness=0)
 nameBG = ImageTk.PhotoImage(Image.open('name.png'))
 remBG = ImageTk.PhotoImage(Image.open('reminder.png'))
+noCheck = ImageTk.PhotoImage(Image.open('CheckOff.png').resize((15,15)))
+yesCheck = ImageTk.PhotoImage(Image.open('CheckOn.png').resize((15,15)))
 
 
 def makeFrame():
@@ -63,8 +65,10 @@ def makeRemCanvas():
     for i in range(len(reminders)):
         canvas.create_image(12, i * 130 + 10, image=remBG, anchor='nw')
         checks.append(tk.IntVar())
-        c = tk.Checkbutton(frame, text=reminders[i][0], bg='white', font=14, variable=checks[i], onvalue=1, offvalue=0)
-        canvas.create_text(80, i * 130 + 50, text=reminders[i][1], font=9, width=180, anchor='nw')
+        c = tk.Checkbutton(frame, bg='white', variable=checks[i], borderwidth=0,
+                           image=noCheck, selectimage=yesCheck, onvalue=1, offvalue=0, indicatoron=False)
+        canvas.create_text(55, i * 130 + 22, text=reminders[i][0], font=("Helvetica",14,'bold'), width=180, anchor='nw')
+        canvas.create_text(80, i * 130 + 50, text=reminders[i][1], font=5, width=180, anchor='nw')
         canvas.create_window(30, i * 130 + 20, anchor='nw', window=c)
 
 
