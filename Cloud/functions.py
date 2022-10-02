@@ -21,7 +21,8 @@ def addReminder(name, title, description):
 connection = pyodbc.connect('Driver={SQL Server};'
                             'Server=10.230.146.53,1433;'
                             'Database=master;'
-                            'Trusted_Connection=True;')
+                            'UID=root;'
+                            'PWD=password;')
 cursor = connection.cursor()
 
 
