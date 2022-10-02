@@ -14,8 +14,13 @@ def markRead(n):
     cursor.execute('UPDATE Reminders SET isRead = 0 WHERE CONVERT(VARCHAR, name) = \'' + n + '\'')
     connection.commit()
 def addReminder(name, title, description):
-    cursor.execute("INSERT INTO reminders (name, description) VALUES (\'" + title + ",\'" + description +"\')")
-    cursor.execute("INSERT INTO names VALUE (\'" + name + "\', (SELECT ID FROM Reminders WHERE name = \'" + title + "\')")
+
+    cursor.execute("INSERT INTO reminders (name, description) VALUES (\'" + title + "\',\'" + description +"\')")
+    cursor.execute("SELECT ID FROM reminders where convert(VARCHAR,name)= \'" + title + "\'")
+    id = cursor.fetchone()[0]
+    print(id)
+    cursor.execute("INSERT INTO names VALUES (\'" + name + "\',\'" + str(id) + "\')")
+
 
 # Connects to Database
 connection = pyodbc.connect('Driver={SQL Server};'
