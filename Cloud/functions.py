@@ -13,6 +13,9 @@ def getReminders(name):
 def markRead(n):
     cursor.execute('UPDATE Reminders SET isRead = 0 WHERE CONVERT(VARCHAR, name) = \'' + n + '\'')
     connection.commit()
+def addReminder(name, title, description):
+    cursor.execute("INSERT INTO reminders (name, description) VALUES (\'" + title + ",\'" + description +"\')")
+    cursor.execute("INSERT INTO names VALUE (\'" + name + "\', (SELECT ID FROM Reminders WHERE name = \'" + title + "\')")
 
 # Connects to Database
 connection = pyodbc.connect('Driver={SQL Server};'
