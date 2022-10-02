@@ -8,7 +8,7 @@ def getReminders():
     cursor.execute('SELECT name, description FROM Reminders WHERE isRead = 0')
     return cursor.fetchall()
 def markRead(n):
-    cursor.execute('UPDATE Reminders SET isRead = 1 WHERE name = \'' + n + '\'')
+    cursor.execute('UPDATE Reminders SET isRead = 1 WHERE CONVERT(VARCHAR, name) = \'' + n + '\'')
     connection.commit()
 
 # Connects to Database
