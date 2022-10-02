@@ -12,8 +12,7 @@ checks = []
 
 root = tk.Tk()
 frame = tk.Frame(root, borderwidth=0, highlightthickness=0)
-nameCanvas = tk.Canvas(frame, bg='#800000', borderwidth=0, highlightthickness=0)
-remCanvas = tk.Canvas(frame, bg='#800000', borderwidth=0, highlightthickness=0)
+canvas = tk.Canvas(frame, bg='#800000', borderwidth=0, highlightthickness=0)
 nameBG = ImageTk.PhotoImage(Image.open('name.png'))
 remBG = ImageTk.PhotoImage(Image.open('reminder.png'))
 
@@ -27,54 +26,46 @@ def makeFrame():
 
 def showReminders(name):
     global reminders
+    print(name)
     reminders = cloud.getReminders(name)
-    nameCanvas.children.destroy()
-    #makeRemCanvas()
+    canvas.delete('all')
+    makeRemCanvas()
 
 
 def _on_mouse_wheel_name(event):
-    nameCanvas.yview_scroll(-1 * int((event.delta / 120)), "units")
+    canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
 
 
 def _on_mouse_wheel_rem(event):
-    nameCanvas.yview_scroll(-1 * int((event.delta / 120)), "units")
+    canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
 
 
 def makeNameCanvas():
-    nameCanvas.pack(side='left', fill='both', expand=1)
-    scrollbar = tk.Scrollbar(frame, orient='vertical', command=nameCanvas.yview)
+    canvas.pack(side='left', fill='both', expand=1)
+    scrollbar = tk.Scrollbar(frame, orient='vertical', command=canvas.yview)
     scrollbar.pack(side='right', fill='y')
 
-    nameCanvas.configure(yscrollcommand=scrollbar.set)
-    nameCanvas.bind('<Configure>', lambda e: nameCanvas.configure(scrollregion=nameCanvas.bbox('all')))
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox('all')))
 
-    nameCanvas.bind_all("<MouseWheel>", _on_mouse_wheel_name)
+    canvas.bind_all("<MouseWheel>", _on_mouse_wheel_name)
 
     names = [i for i in cloud.getNames()]
     for i in range(len(names)):
-        nameCanvas.create_image(12, i * 90 + 8, image=nameBG, anchor='nw')
+        canvas.create_image(12, i * 90 + 8, image=nameBG, anchor='nw')
         checks.append(tk.IntVar())
         c = tk.Button(frame, text=names[i][0], bg='white', borderwidth=0, font=('Helvetica 15 bold'),
                       width=22, height=2, command=partial(showReminders, names[i][0]))
-        nameCanvas.create_window(156, i * 90 + 20, anchor='n', window=c)
+        canvas.create_window(156, i * 90 + 20, anchor='n', window=c)
 
 
 def makeRemCanvas():
-    remCanvas.pack(side='left', fill='both', expand=1)
-    scrollbar = tk.Scrollbar(frame, orient='vertical', command=remCanvas.yview)
-    scrollbar.pack(side='right', fill='y')
-
-    remCanvas.configure(yscrollcommand=scrollbar.set)
-    remCanvas.bind('<Configure>', lambda e: remCanvas.configure(scrollregion=remCanvas.bbox('all')))
-
-    remCanvas.bind_all("<MouseWheel>", _on_mouse_wheel_rem)
-
     for i in range(len(reminders)):
-        remCanvas.create_image(12, i * 130 + 10, image=remBG, anchor='nw')
+        canvas.create_image(12, i * 130 + 10, image=remBG, anchor='nw')
         checks.append(tk.IntVar())
         c = tk.Checkbutton(frame, text=reminders[i][0], bg='white', font=14, variable=checks[i], onvalue=1, offvalue=0)
-        remCanvas.create_text(80, i * 130 + 50, text=reminders[i][1], font=9, width=180, anchor='nw')
-        remCanvas.create_window(30, i * 130 + 20, anchor='nw', window=c)
+        canvas.create_text(80, i * 130 + 50, text=reminders[i][1], font=9, width=180, anchor='nw')
+        canvas.create_window(30, i * 130 + 20, anchor='nw', window=c)
 
 
 ################################
