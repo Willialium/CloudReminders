@@ -1,17 +1,14 @@
 import pyodbc
 
 # Functions
-def addReminder(n, d):
-    cursor.execute('INSERT INTO Reminders(isRead, name, description) VALUES(0,\'' + n + '\',\'' + d + '\')')
-    connection.commit()
 def getNames():
     cursor.execute('SELECT DISTINCT CONVERT(VARCHAR, firstName) FROM names')
     return cursor.fetchall()
 def getReminders(name):
-    cursor.execute('SELECT name, description FROM reminders A INNER JOIN names B ON A.id=B.reminderID WHERE CONVERT(VARCHAR, B.firstName)= \'' + name + '\'')
+    cursor.execute('SELECT name, description FROM reminders A INNER JOIN names B ON A.id=B.reminderID WHERE isRead = 0 AND CONVERT(VARCHAR, B.firstName)= \'' + name + '\'')
     return cursor.fetchall()
 def markRead(n):
-    cursor.execute('UPDATE Reminders SET isRead = 0 WHERE CONVERT(VARCHAR, name) = \'' + n + '\'')
+    cursor.execute('UPDATE Reminders SET isRead = 1 WHERE CONVERT(VARCHAR, name) = \'' + n + '\'')
     connection.commit()
 def addReminder(name, title, description):
 
@@ -20,6 +17,7 @@ def addReminder(name, title, description):
     id = cursor.fetchone()[0]
     print(id)
     cursor.execute("INSERT INTO names VALUES (\'" + name + "\',\'" + str(id) + "\')")
+    connection.commit()
 
 
 # Connects to Database
