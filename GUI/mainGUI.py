@@ -1,6 +1,10 @@
 import tkinter as tk
-import Reminder as rem
 from PIL import ImageTk, Image
+import pyodbc
+import Cloud.functions as cloud
+
+
+reminders = cloud.getReminders()
 
 root = tk.Tk()
 root.title('Reminder')
@@ -20,10 +24,14 @@ def _on_mouse_wheel(event):
     canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
 canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
 
+def checkAction(name):
+    cloud.markRead(name)
+
 bg = ImageTk.PhotoImage(Image.open('reminder.png'))
-for i in range(10):
+for i in range(len(reminders)):
     canvas.create_image(12, i*130, image=bg, anchor='nw')
-    c = tk.Checkbutton(frame, text=str(i), bg='white', font=12)
+    c = tk.Checkbutton(frame, text=reminders[i][0], bg='white', font=14, command=lambda: checkAction(reminders[i][0]))
+    canvas.create_text(80, i*130+45, text=reminders[i][1], font=9, width=180, anchor='nw')
     checkCanvas = canvas.create_window(30, i*130 + 20, anchor='nw', window=c)
 
 

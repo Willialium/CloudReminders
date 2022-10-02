@@ -26,8 +26,8 @@ class MainApp(App):
 
     def on_button_press(self, instance):
         connection = pyodbc.connect('Driver={SQL Server};'
-                                    'Server=WINDELL-T2U0QEF;'
-                                    'Database=mydb;'
+                                    'Server=10.230.146.53,1433;'
+                                    'Database=master;'
                                     'Trusted_Connection=True;')
         cursor = connection.cursor()
         functions.addReminder(self.nameInput.text, self.detailsInput.text)
